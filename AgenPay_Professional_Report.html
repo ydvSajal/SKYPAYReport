@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgenPay - Technical Project Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            size: A4;
+            margin: 1in;
+            @bottom-center {
+                content: "Page " counter(page) " of " counter(pages);
+                font-size: 10pt;
+                color: #666;
+            }
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Calibri', 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+            padding: 0;
+        }
+
+        /* Cover Page */
+        .cover-page {
+            page-break-after: always;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #f5f5f5;
+            padding: 60px 40px;
+            text-align: center;
+            border-bottom: 3px solid #000;
+        }
+
+        .cover-page h1 {
+            font-size: 3.5em;
+            color: #000;
+            margin-bottom: 20px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .cover-page .subtitle {
+            font-size: 1.4em;
+            color: #666;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .cover-page .project-info {
+            margin-top: 80px;
+            color: #666;
+            font-size: 1.1em;
+            line-height: 2;
+        }
+
+        .cover-page .project-info strong {
+            color: #000;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        /* Table of Contents */
+        .toc-page {
+            page-break-after: always;
+            padding: 60px 40px;
+        }
+
+        .toc-page h2 {
+            font-size: 2em;
+            color: #000;
+            margin-bottom: 40px;
+            font-weight: 700;
+            border-bottom: 2px solid #333;
+            padding-bottom: 15px;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .toc-list li {
+            padding: 8px 0;
+            color: #333;
+            font-size: 1.05em;
+            border-bottom: 1px dotted #ccc;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .toc-list li span:first-child {
+            flex: 1;
+        }
+
+        .toc-list li span:last-child {
+            color: #666;
+        }
+
+        /* Sections */
+        section {
+            page-break-before: always;
+            padding: 60px 40px;
+        }
+
+        section:first-of-type {
+            page-break-before: avoid;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #000;
+            margin-bottom: 30px;
+            font-weight: 700;
+            border-bottom: 3px solid #333;
+            padding-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            color: #000;
+            margin-top: 40px;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            color: #333;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        h4 {
+            font-size: 1.1em;
+            color: #333;
+            margin-top: 20px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+            line-height: 1.7;
+        }
+
+        ul, ol {
+            margin-left: 40px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Highlight Boxes */
+        .highlight-box {
+            padding: 20px 25px;
+            margin: 25px 0;
+            border-left: 4px solid #333;
+            background: #f9f9f9;
+            color: #333;
+        }
+
+        .highlight-box strong {
+            color: #000;
+        }
+
+        .highlight-box p {
+            margin: 0;
+        }
+
+        .highlight-box p + p {
+            margin-top: 10px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: #fff;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background: #333;
+            color: #fff;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid #333;
+        }
+
+        td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        tbody tr:hover {
+            background: #efefef;
+        }
+
+        /* Code Blocks */
+        pre {
+            background: #f4f4f4;
+            padding: 20px;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            border-left: 4px solid #666;
+            line-height: 1.5;
+            font-size: 0.95em;
+        }
+
+        code {
+            font-family: 'Courier New', 'Consolas', monospace;
+            color: #333;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Inline code */
+        p code, li code, td code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.9em;
+            color: #333;
+        }
+
+        /* Feature Table */
+        .feature-table td {
+            padding: 15px;
+        }
+
+        .feature-table td:first-child {
+            font-weight: 600;
+            color: #000;
+            width: 25%;
+        }
+
+        /* Executive Summary */
+        .executive-summary {
+            background: #f9f9f9;
+            padding: 25px;
+            border: 1px solid #ddd;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .executive-summary p {
+            margin-bottom: 12px;
+        }
+
+        /* Page breaks and structure */
+        .section-break {
+            page-break-after: always;
+        }
+
+        /* Headers and Footers */
+        header {
+            background: #fff;
+            padding: 20px 40px;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        footer {
+            background: #f5f5f5;
+            padding: 20px 40px;
+            border-top: 1px solid #ddd;
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #666;
+            text-align: center;
+        }
+
+        /* Appendix */
+        .appendix {
+            margin-top: 40px;
+            color: #666;
+        }
+
+        .appendix h3 {
+            color: #000;
+            font-weight: 700;
+        }
+
+        /* Print Optimization */
+        @media print {
+            body {
+                background: white;
+            }
+            section {
+                page-break-inside: avoid;
+            }
+            table {
+                page-break-inside: avoid;
+            }
+            pre {
+                page-break-inside: avoid;
+            }
+            h1, h2, h3 {
+                page-break-after: avoid;
+            }
+        }
+
+        .metadata {
+            color: #666;
+            font-size: 0.95em;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <!-- COVER PAGE -->
+    <div class="cover-page">
+        <h1>AgenPay</h1>
+        <p class="subtitle">Agentic Payment Infrastructure for Web3 Teams</p>
+        <p class="subtitle" style="font-size: 1.1em; color: #333;">Technical Project Report</p>
+        
+        <div class="project-info">
+            <p><strong>Status:</strong> Active and Operational</p>
+            <p><strong>Version:</strong> 1.0.0</p>
+            <p><strong>Date:</strong> May 2026</p>
+            <p><strong>License:</strong> MIT</p>
+        </div>
+    </div>
+
+    <!-- TABLE OF CONTENTS -->
+    <div class="toc-page">
+        <h2>Table of Contents</h2>
+        <ul class="toc-list">
+            <li><span>1. Executive Summary</span><span>3</span></li>
+            <li><span>2. Introduction and Problem Statement</span><span>4</span></li>
+            <li><span>3. System Architecture</span><span>5</span></li>
+            <li><span>4. Technology Stack</span><span>6</span></li>
+            <li><span>5. Core Components and Services</span><span>7</span></li>
+            <li><span>6. Database Design</span><span>9</span></li>
+            <li><span>7. API Documentation</span><span>10</span></li>
+            <li><span>8. Security Features</span><span>12</span></li>
+            <li><span>9. Installation and Configuration</span><span>13</span></li>
+            <li><span>10. Deployment Guidelines</span><span>15</span></li>
+            <li><span>11. Testing and Verification</span><span>16</span></li>
+            <li><span>12. Conclusion and Future Work</span><span>17</span></li>
+        </ul>
+    </div>
+
+    <main>
+        <!-- SECTION 1: EXECUTIVE SUMMARY -->
+        <section>
+            <h1>1. Executive Summary</h1>
+            
+            <div class="executive-summary">
+                <p>AgenPay represents a revolutionary approach to cryptocurrency payment processing through the implementation of autonomous AI agents. This project integrates advanced language models with blockchain infrastructure to create a unified payment platform that operates on the Sei Network.</p>
+                
+                <p>The system addresses critical pain points in Web3 payment workflows by automating transaction processing, enabling multi-token payments, and providing seamless integration with enterprise tools such as Notion. Through a sophisticated agent architecture powered by LangGraph and LangChain, AgenPay enables teams to manage complex payment operations with natural language interfaces.</p>
+                
+                <p>Key achievements include successful integration of X402Pay protocol, implementation of fallback AI model chains, real-time payment verification, and comprehensive Notion workspace synchronization. The platform is production-ready and currently operational for Web3 teams.</p>
+            </div>
+
+            <h2>1.1 Key Metrics</h2>
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Core Backend Service Lines</td>
+                    <td>1,600+ (AgentPayAgent.js)</td>
+                </tr>
+                <tr>
+                    <td>API Endpoints Implemented</td>
+                    <td>25+</td>
+                </tr>
+                <tr>
+                    <td>Database Models</td>
+                    <td>8</td>
+                </tr>
+                <tr>
+                    <td>AI Model Support</td>
+                    <td>3 (OpenAI GPT-4, Google Gemini, MiniMax)</td>
+                </tr>
+                <tr>
+                    <td>Supported Payment Tokens</td>
+                    <td>10+</td>
+                </tr>
+                <tr>
+                    <td>Blockchain Networks</td>
+                    <td>Sei Network (Mainnet and Testnet)</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- SECTION 2: INTRODUCTION -->
+        <section>
+            <h1>2. Introduction and Problem Statement</h1>
+
+            <h2>2.1 Background</h2>
+            <p>Cryptocurrency and blockchain technology have introduced new paradigms for financial transactions and value transfer. However, the complexity of managing multi-currency payments, exchange rate conversions, and settlement across multiple networks remains a significant barrier for Web3 teams.</p>
+
+            <p>Traditional payment solutions in the Web3 space are either fragmented across multiple tools or lack intelligent automation capabilities. Teams must manually coordinate payment requests, track transactions, reconcile accounts, and manage refunds—processes that are time-consuming, error-prone, and inefficient.</p>
+
+            <h2>2.2 Problem Statement</h2>
+            <div class="highlight-box">
+                <p><strong>Problem:</strong> Web3 teams lack a unified, intelligent payment infrastructure that can autonomously handle complex payment operations while maintaining integration with existing team workflows.</p>
+            </div>
+
+            <h2>2.3 Solution Overview</h2>
+            <p>AgenPay solves this problem by deploying AI agents that understand natural language payment requests and execute complex, multi-step payment workflows autonomously. The solution integrates three key components:</p>
+
+            <ul>
+                <li><strong>Intelligent Agent Layer:</strong> LangGraph-powered agents that process natural language, extract payment details, and coordinate multi-step operations</li>
+                <li><strong>Payment Infrastructure:</strong> X402Pay protocol implementation for secure, non-custodial payment requests with cryptographic verification</li>
+                <li><strong>Workspace Integration:</strong> Native Notion integration enabling teams to manage payments within their existing collaboration tools</li>
+            </ul>
+
+            <h2>2.4 Project Objectives</h2>
+            <ol>
+                <li>Develop an autonomous AI agent capable of processing natural language payment requests</li>
+                <li>Implement secure X402Pay protocol integration for non-custodial payment links</li>
+                <li>Create seamless Notion API integration for workspace-first payment management</li>
+                <li>Support multi-token payments with automatic exchange rate handling</li>
+                <li>Provide comprehensive API documentation and RESTful endpoints</li>
+                <li>Ensure enterprise-grade security with authentication, authorization, and encryption</li>
+                <li>Deploy on Sei Network with support for mainnet and testnet operations</li>
+            </ol>
+        </section>
+
+        <!-- SECTION 3: SYSTEM ARCHITECTURE -->
+        <section>
+            <h1>3. System Architecture</h1>
+
+            <h2>3.1 High-Level Architecture</h2>
+            <p>AgenPay follows a three-tier microservices architecture:</p>
+
+            <pre><code>┌─────────────────────────────────────────────────────────────┐
+│                    Client Layer (Frontend)                   │
+│         React 19 + Next.js 15 Dashboard + Chat UI            │
+└──────────────────────┬──────────────────────────────────────┘
+                       │
+┌──────────────────────▼──────────────────────────────────────┐
+│               API Gateway Layer (Express.js)                 │
+│        Authentication | Rate Limiting | Request Routing     │
+└──────────────────────┬──────────────────────────────────────┘
+                       │
+        ┌──────────────┼──────────────┐
+        │              │              │
+┌───────▼────────┐ ┌──▼────────┐ ┌───▼──────────┐
+│  Agent Layer   │ │ Payment   │ │ Integration  │
+│  (LangGraph)   │ │ Service   │ │ Service      │
+│                │ │(X402Pay)  │ │(Notion)      │
+└───────┬────────┘ └──┬────────┘ └───┬──────────┘
+        │             │              │
+        └─────────────┼──────────────┘
+                      │
+        ┌─────────────▼──────────────┐
+        │    Data Layer (Prisma)     │
+        │  PostgreSQL | SQLite       │
+        └────────────────────────────┘
+        
+        ┌─────────────────────────────┐
+        │  External Services          │
+        │  ┌ Sei Blockchain Network   │
+        │  ┌ OpenAI / Gemini / MiniMax│
+        │  ┌ Notion API               │
+        │  ┌ Coinbase CDP SDK         │
+        │  ┌ Privy Wallet Management  │
+        └─────────────────────────────┘</code></pre>
+
+            <h2>3.2 Component Interaction Flow</h2>
+            <p>The typical flow for a payment request execution:</p>
+
+            <ol>
+                <li>User submits natural language payment request through dashboard or API</li>
+                <li>Express.js API server authenticates request and validates JWT token</li>
+                <li>Request routed to AgentPayAgent for processing</li>
+                <li>Agent uses LLM to extract payment details and determine action path</li>
+                <li>Agent executes appropriate tools: payment link creation, email notification, Notion synchronization</li>
+                <li>X402PayService generates secure payment link and blockchain metadata</li>
+                <li>NotionService synchronizes payment records to user workspace</li>
+                <li>Response returned to client with payment tracking information</li>
+                <li>Facilitator service monitors blockchain for payment confirmation</li>
+                <li>Upon confirmation, system triggers webhook and updates payment status</li>
+            </ol>
+
+            <h2>3.3 Service Architecture</h2>
+            <table>
+                <tr>
+                    <th>Service</th>
+                    <th>Purpose</th>
+                    <th>Key Technologies</th>
+                </tr>
+                <tr>
+                    <td>AgentPayAgent</td>
+                    <td>AI-powered payment processing and orchestration</td>
+                    <td>LangGraph, LangChain, OpenAI GPT-4</td>
+                </tr>
+                <tr>
+                    <td>NotionService</td>
+                    <td>Workspace integration and database synchronization</td>
+                    <td>Notion API, OAuth 2.0</td>
+                </tr>
+                <tr>
+                    <td>X402PayService</td>
+                    <td>Payment link generation and verification</td>
+                    <td>x402-express, Sei Network, viem</td>
+                </tr>
+                <tr>
+                    <td>WalletService</td>
+                    <td>Multi-signature wallet management</td>
+                    <td>Privy SDK, Coinbase CDP</td>
+                </tr>
+                <tr>
+                    <td>SchedulingService</td>
+                    <td>Recurring payments and scheduled operations</td>
+                    <td>node-cron, Bull Queue</td>
+                </tr>
+                <tr>
+                    <td>Facilitator Service</td>
+                    <td>Agent coordination and request delegation</td>
+                    <td>Express.js, Message Queue</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- SECTION 4: TECHNOLOGY STACK -->
+        <section>
+            <h1>4. Technology Stack</h1>
+
+            <h2>4.1 Backend Technology Stack</h2>
+            <table class="feature-table">
+                <tr>
+                    <th>Category</th>
+                    <th>Technology</th>
+                    <th>Version</th>
+                </tr>
+                <tr>
+                    <td>Runtime Environment</td>
+                    <td>Node.js</td>
+                    <td>18.0+</td>
+                </tr>
+                <tr>
+                    <td>Web Framework</td>
+                    <td>Express.js</td>
+                    <td>4.18.2</td>
+                </tr>
+                <tr>
+                    <td>Module System</td>
+                    <td>ECMAScript Modules (ESM)</td>
+                    <td>Latest</td>
+                </tr>
+                <tr>
+                    <td>AI/ML Framework</td>
+                    <td>LangGraph.js</td>
+                    <td>0.2.19</td>
+                </tr>
+                <tr>
+                    <td>LLM Integration</td>
+                    <td>LangChain + OpenAI SDK</td>
+                    <td>0.3.13</td>
+                </tr>
+                <tr>
+                    <td>Database ORM</td>
+                    <td>Prisma</td>
+                    <td>5.22.0</td>
+                </tr>
+                <tr>
+                    <td>Database (Production)</td>
+                    <td>PostgreSQL</td>
+                    <td>12.0+</td>
+                </tr>
+                <tr>
+                    <td>Database (Development)</td>
+                    <td>SQLite</td>
+                    <td>3.x</td>
+                </tr>
+                <tr>
+                    <td>Blockchain SDK</td>
+                    <td>@sei-js/x402</td>
+                    <td>0.4.1</td>
+                </tr>
+                <tr>
+                    <td>Wallet Management</td>
+                    <td>Privy SDK</td>
+                    <td>1.31.1</td>
+                </tr>
+                <tr>
+                    <td>Cryptocurrency SDK</td>
+                    <td>Coinbase SDK</td>
+                    <td>0.25.0</td>
+                </tr>
+                <tr>
+                    <td>HTTP Client</td>
+                    <td>Axios</td>
+                    <td>1.6.0+</td>
+                </tr>
+                <tr>
+                    <td>Authentication</td>
+                    <td>JWT + bcryptjs</td>
+                    <td>9.0.2 / 2.4.3</td>
+                </tr>
+                <tr>
+                    <td>Rate Limiting</td>
+                    <td>express-rate-limit</td>
+                    <td>7.1.5</td>
+                </tr>
+                <tr>
+                    <td>Security Headers</td>
+                    <td>Helmet.js</td>
+                    <td>7.1.0</td>
+                </tr>
+                <tr>
+                    <td>Email Service</td>
+                    <td>Nodemailer</td>
+                    <td>6.9.0+</td>
+                </tr>
+                <tr>
+                    <td>Task Scheduling</td>
+                    <td>node-cron</td>
+                    <td>3.0.2</td>
+                </tr>
+                <tr>
+                    <td>Validation</td>
+                    <td>Zod</td>
+                    <td>3.25.67</td>
+                </tr>
+            </table>
+
+            <h2>4.2 Frontend Technology Stack</h2>
+            <table class="feature-table">
+                <tr>
+                    <th>Category</th>
+                    <th>Technology</th>
+                    <th>Version</th>
+                </tr>
+                <tr>
+                    <td>Framework</td>
+                    <td>React</td>
+                    <td>19.0.0</td>
+                </tr>
+                <tr>
+                    <td>Meta-Framework</td>
+                    <td>Next.js</td>
+                    <td>15.2.4</td>
+                </tr>
+                <tr>
+                    <td>Build Tool</td>
+                    <td>Turbopack</td>
+                    <td>Next.js 15</td>
+                </tr>
+                <tr>
+                    <td>Language</td>
+                    <td>TypeScript</td>
+                    <td>5.x</td>
+                </tr>
+                <tr>
+                    <td>Styling</td>
+                    <td>Tailwind CSS</td>
+                    <td>4.0+</td>
+                </tr>
+                <tr>
+                    <td>CSS Processor</td>
+                    <td>PostCSS</td>
+                    <td>8.x</td>
+                </tr>
+                <tr>
+                    <td>Component Library</td>
+                    <td>Radix UI</td>
+                    <td>Latest</td>
+                </tr>
+                <tr>
+                    <td>Icon Library</td>
+                    <td>lucide-react</td>
+                    <td>Latest</td>
+                </tr>
+                <tr>
+                    <td>AI Integration</td>
+                    <td>Vercel AI SDK</td>
+                    <td>4.3.16</td>
+                </tr>
+                <tr>
+                    <td>HTTP Client</td>
+                    <td>Axios</td>
+                    <td>1.6.0+</td>
+                </tr>
+                <tr>
+                    <td>Form Validation</td>
+                    <td>Zod</td>
+                    <td>3.25.67</td>
+                </tr>
+                <tr>
+                    <td>Utility Classes</td>
+                    <td>clsx, tailwind-merge</td>
+                    <td>Latest</td>
+                </tr>
+            </table>
+
+            <h2>4.3 External Services and APIs</h2>
+            <ul>
+                <li><strong>OpenAI GPT-4:</strong> Primary AI model for payment processing and natural language understanding</li>
+                <li><strong>Google Gemini:</strong> Fallback AI model with extended context window support</li>
+                <li><strong>MiniMax:</strong> Secondary fallback model for critical operations</li>
+                <li><strong>Sei Network RPC:</strong> Blockchain interaction and transaction verification</li>
+                <li><strong>Notion API:</strong> Workspace database creation and record synchronization</li>
+                <li><strong>Coinbase CDP:</strong> Cryptocurrency wallet operations and asset transfers</li>
+                <li><strong>Privy Wallet Service:</strong> Non-custodial key management and signing</li>
+            </ul>
+        </section>
+
+        <!-- SECTION 5: CORE COMPONENTS -->
+        <section>
+            <h1>5. Core Components and Services</h1>
+
+            <h2>5.1 AgentPayAgent (Payment Processing Agent)</h2>
+            <p>The AgentPayAgent is the central intelligence component of the system, implementing a sophisticated LangGraph state machine with 1600+ lines of carefully structured code.</p>
+
+            <h3>Key Functions:</h3>
+            <ul>
+                <li><strong>extractPaymentDetails():</strong> Uses regex patterns and heuristics to identify payment amounts, recipient addresses, currencies, and descriptions from natural language input</li>
+                <li><strong>createPaymentLink():</strong> Generates X402Pay payment links with cryptographic signatures and embedded payment metadata</li>
+                <li><strong>createMultiTokenPaymentLink():</strong> Enables users to pay with any token while merchants receive preferred currency through DEX aggregation</li>
+                <li><strong>getPaymentOptions():</strong> Queries supported tokens and current exchange rates from on-chain liquidity pools</li>
+                <li><strong>sendPaymentEmail():</strong> Composes and sends HTML email notifications with payment links, QR codes, and tracking information</li>
+                <li><strong>saveToNotion():</strong> Synchronizes payment records to Notion databases with automatic field mapping</li>
+            </ul>
+
+            <h3>LLM Fallback Chain:</h3>
+            <p>The agent implements intelligent fallback between three AI models to ensure operational resilience:</p>
+            <ol>
+                <li><strong>Primary:</strong> OpenAI GPT-4 (optimal for complex reasoning)</li>
+                <li><strong>Secondary:</strong> Google Gemini (extended context, ultra-large prompts)</li>
+                <li><strong>Tertiary:</strong> MiniMax (stable inference, backup operation)</li>
+            </ol>
+
+            <h2>5.2 NotionService (Workspace Integration)</h2>
+            <p>The NotionService handles OAuth-based Notion integration, enabling seamless workspace synchronization.</p>
+
+            <h3>Key Capabilities:</h3>
+            <ul>
+                <li>OAuth 2.0 token exchange for workspace authorization</li>
+                <li>Automatic Notion workspace structure creation (database setup, dashboard layout)</li>
+                <li>Real-time record insertion and updates</li>
+                <li>Bidirectional sync between payment system and Notion</li>
+                <li>Property mapping for custom database schemas</li>
+            </ul>
+
+            <h2>5.3 X402PayService (Payment Protocol Handler)</h2>
+            <p>The X402PayService manages the X402Pay protocol implementation, providing secure payment request generation and verification.</p>
+
+            <h3>Key Algorithms:</h3>
+            <p><strong>Payment Route Verification:</strong> Validates payment routes against active registered recipients, ensuring only authorized wallets can receive payments.</p>
+
+            <p><strong>Native SEI Confirmation:</strong> Implements on-chain verification by:</p>
+            <ol>
+                <li>Fetching transaction details from Sei blockchain</li>
+                <li>Verifying recipient and sender addresses match payment request</li>
+                <li>Confirming payment amount matches expected value</li>
+                <li>Marking payment as confirmed once all checks pass</li>
+            </ol>
+
+            <h2>5.4 WalletService (Multi-Signature Wallets)</h2>
+            <p>Manages cryptocurrency wallets through Privy and Coinbase CDP integration, supporting:</p>
+            <ul>
+                <li>Multi-user wallet access with role-based controls</li>
+                <li>Transaction signing and gas fee estimation</li>
+                <li>Balance tracking across multiple tokens and chains</li>
+                <li>Secure key management and custody</li>
+            </ul>
+
+            <h2>5.5 SchedulingService (Automation Engine)</h2>
+            <p>Handles recurring payments, scheduled refunds, and automatic reconciliation tasks using cron expressions and task queues.</p>
+
+            <p><strong>Supported Operations:</strong></p>
+            <ul>
+                <li>Daily/weekly/monthly recurring payment schedules</li>
+                <li>Automatic refunds for expired payment requests</li>
+                <li>Periodic reconciliation reports</li>
+                <li>Scheduled database cleanup and archival</li>
+            </ul>
+
+            <h2>5.6 OKXDexService (Token Swap Integration)</h2>
+            <p>Provides DEX aggregation for multi-token payment support, enabling users to pay with any token while merchants receive their preferred currency.</p>
+        </section>
+
+        <!-- SECTION 6: DATABASE DESIGN -->
+        <section>
+            <h1>6. Database Design</h1>
+
+            <h2>6.1 Database Models Overview</h2>
+            <p>The system uses Prisma ORM with PostgreSQL for production and SQLite for development. The schema includes eight primary models.</p>
+
+            <h2>6.2 Core Data Models</h2>
+
+            <h3>User Model</h3>
+            <pre><code>model User {
+  id                String      @id @default(cuid())
+  email             String      @unique
+  name              String
+  passwordHash      String
+  walletAddress     String?
+  notionApiKey      String?
+  notionConnected   Boolean     @default(false)
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  
+  payments          Payment[]
+  chatHistory       ChatMessage[]
+  walletOperations  WalletOperation[]
+}</code></pre>
+
+            <h3>Payment Model</h3>
+            <pre><code>model Payment {
+  id                String      @id @default(cuid())
+  userId            String
+  amount            Float
+  currency          String
+  status            String      // pending, paid, expired, refunded
+  recipient         String
+  transactionHash   String?
+  refundHash        String?
+  link              String?
+  autoRefundDays    Int?
+  createdAt         DateTime    @default(now())
+  paidAt            DateTime?
+  refundedAt        DateTime?
+  
+  user              User        @relation(fields: [userId], references: [id])
+}</code></pre>
+
+            <h3>Transaction Model</h3>
+            <pre><code>model Transaction {
+  id                String      @id @default(cuid())
+  userId            String
+  paymentId         String?
+  type              String      // payment, refund, swap
+  amount            Float
+  currency          String
+  fee               Float
+  status            String      // pending, confirmed, failed
+  txHash            String?
+  createdAt         DateTime    @default(now())
+  confirmedAt       DateTime?
+}</code></pre>
+
+            <h2>6.3 Relationships and Constraints</h2>
+            <table>
+                <tr>
+                    <th>Relationship</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>User to Payment</td>
+                    <td>One-to-Many</td>
+                    <td>User can have multiple payments</td>
+                </tr>
+                <tr>
+                    <td>User to Transaction</td>
+                    <td>One-to-Many</td>
+                    <td>User can have multiple transactions</td>
+                </tr>
+                <tr>
+                    <td>User to ChatMessage</td>
+                    <td>One-to-Many</td>
+                    <td>User chat conversation history</td>
+                </tr>
+                <tr>
+                    <td>Payment to Transaction</td>
+                    <td>One-to-Many</td>
+                    <td>Payment may trigger multiple transactions</td>
+                </tr>
+                <tr>
+                    <td>User to NotionDatabase</td>
+                    <td>One-to-Many</td>
+                    <td>User can sync multiple Notion databases</td>
+                </tr>
+            </table>
+
+            <h2>6.4 Database Indexes and Optimization</h2>
+            <p>Critical indexes on frequently queried fields:</p>
+            <ul>
+                <li><code>User.email</code> - UNIQUE index for authentication</li>
+                <li><code>Payment.userId</code> - Foreign key index for user queries</li>
+                <li><code>Payment.status</code> - Status filtering queries</li>
+                <li><code>Transaction.txHash</code> - Blockchain verification lookups</li>
+                <li><code>ChatMessage.userId</code> - Conversation history retrieval</li>
+            </ul>
+        </section>
+
+        <!-- SECTION 7: API DOCUMENTATION -->
+        <section>
+            <h1>7. API Documentation</h1>
+
+            <h2>7.1 API Architecture</h2>
+            <p>The API follows RESTful principles with JWT authentication, implementing 25+ endpoints organized into logical resource groups.</p>
+
+            <h2>7.2 Authentication Flow</h2>
+            <pre><code>1. User calls POST /api/register or /api/login
+2. Server validates credentials and issues JWT token
+3. Client includes token in Authorization header: "Bearer {token}"
+4. Server validates token signature and expiration
+5. Request proceeds to protected endpoint handler</code></pre>
+
+            <h2>7.3 Core Endpoint Groups</h2>
+
+            <h3>Authentication Endpoints</h3>
+            <table>
+                <tr>
+                    <th>Method</th>
+                    <th>Endpoint</th>
+                    <th>Purpose</th>
+                </tr>
+                <tr>
+                    <td>POST</td>
+                    <td>/auth/register</td>
+                    <td>User registration and wallet creation</td>
+                </tr>
+                <tr>
+                    <td>POST</td>
+                    <td>/auth/login</td>
+                    <td>User authentication and JWT issuance</td>
+                </tr>
+                <tr>
+                    <td>GET</td>
+                    <td>/auth/verify</td>
+                    <td>Token validation and refresh</td>
+                </tr>
+            </table>
+
+            <h3>Payment Endpoints</h3>
+            <table>
+                <tr>
+                    <th>Method</th>
+                    <th>Endpoint</th>
+                    <th>Purpose</th>
+                </tr>
+                <tr>
+                    <td>POST</td>
+                    <td>/payments/create</td>
+                    <td>Create new payment request</td>
+                </tr>
+                <tr>
+                    <td>GET</td>
+                    <td>/payments/:paymentId</td>
+                    <td>Get payment status and details</td>
+                </tr>
+                <tr>
+                    <td>GET</td>
+                    <td>/payments</td>
+                    <td>List user payments with filters</td>
+                </tr>
+                <tr>
+                    <td>POST</td>
+                    <td>/payments/:paymentId/refund</td>
+                    <td>Initiate payment refund</td>
+                </tr>
+            </table>
+
+            <h3>Chat and Agent Endpoints</h3>
+            <table>
+                <tr>
+                    <th>Method</th>
+                    <th>Endpoint</th>
+                    <th>Purpose</th>
+                </tr>
+                <tr>
+                    <td>POST</td>
+                    <td>/chat</td>
+                    <td>Send natural language request to agent</td>
+                </tr>
+                <tr>
+                    <td>GET</td>
+                    <td>/chat-history</td>
+                    <td>Retrieve conversation history</td>
+                </tr>
+            </table>
+
+            <h3>Wallet Management Endpoints</h3>
+            <table>
+                <tr>
+                    <th>Method</th>
+                    <th>Endpoint</th>
+                    <th>Purpose</th>
+                </tr>
+                <tr>
+                    <td>GET</td>
+                    <td>/wallet</td>
+                    <td>Get wallet balances and address</td>
+                </tr>
+                <tr>
+                    <td>GET</td>
+                    <td>/wallet/tokens</td>
+                    <td>List supported tokens</td>
+                </tr>
+            </table>
+
+            <h2>7.4 Sample API Requests</h2>
+
+            <h3>Register New User</h3>
+            <pre><code>POST /api/register
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "secure_password_123",
+  "name": "John Doe"
+}
+
+Response 201:
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "userId": "cuid_123",
+  "walletAddress": "0x742d35Cc6634C0532925a3b844Bc9e7595f42bE"
+}</code></pre>
+
+            <h3>Create Payment Link</h3>
+            <pre><code>POST /api/payments/create
+Authorization: Bearer {JWT_TOKEN}
+Content-Type: application/json
+
+{
+  "amount": 0.1,
+  "currency": "ETH",
+  "recipient": "alice@company.com",
+  "description": "Consulting work for Q1",
+  "autoRefundDays": 30
+}
+
+Response 201:
+{
+  "paymentId": "pay_xyz123",
+  "link": "https://x402pay.app/pay/abc123def456",
+  "qrCode": "data:image/png;base64,iVBORw0KGgo...",
+  "status": "pending",
+  "expiresAt": "2026-06-04T10:30:00Z"
+}</code></pre>
+
+            <h3>Send Natural Language Payment Request</h3>
+            <pre><code>POST /api/chat
+Authorization: Bearer {JWT_TOKEN}
+Content-Type: application/json
+
+{
+  "message": "Send 50 USDC to alice@company.com for design work"
+}
+
+Response 200:
+{
+  "response": "Payment link created and email sent to alice@company.com",
+  "paymentId": "pay_xyz123",
+  "sessionId": "session_abc456",
+  "action": "payment_created"
+}</code></pre>
+
+            <h2>7.5 Error Handling</h2>
+            <p>API returns standardized error responses with appropriate HTTP status codes:</p>
+
+            <pre><code>400 Bad Request: Invalid input parameters
+401 Unauthorized: Missing or invalid JWT token
+403 Forbidden: Insufficient permissions
+404 Not Found: Resource does not exist
+429 Too Many Requests: Rate limit exceeded
+500 Internal Server Error: Server-side exception
+
+Error Response Format:
+{
+  "error": "Error code",
+  "message": "Human-readable error description",
+  "timestamp": "2026-05-03T10:00:00Z"
+}</code></pre>
+        </section>
+
+        <!-- SECTION 8: SECURITY -->
+        <section>
+            <h1>8. Security Features</h1>
+
+            <h2>8.1 Authentication and Authorization</h2>
+            <p><strong>JWT-based Authentication:</strong> All API endpoints enforce JWT token validation. Tokens include user ID, expiration time, and cryptographic signature.</p>
+
+            <p><strong>Password Security:</strong> User passwords are hashed using bcryptjs with 10 salt rounds before storage. Raw passwords are never stored or logged.</p>
+
+            <p><strong>Role-Based Access Control:</strong> Users can only access their own payment records and wallet operations. Administrative operations require elevated permissions.</p>
+
+            <h2>8.2 Transport Security</h2>
+            <ul>
+                <li><strong>HTTPS/TLS:</strong> All production endpoints use TLS 1.3 encryption</li>
+                <li><strong>CORS Protection:</strong> Cross-origin requests validated against whitelist</li>
+                <li><strong>CSRF Prevention:</strong> SameSite cookie attributes and token validation</li>
+                <li><strong>Helmet.js:</strong> Automatic HTTP security headers (X-Frame-Options, CSP, etc.)</li>
+            </ul>
+
+            <h2>8.3 Rate Limiting</h2>
+            <p>express-rate-limit middleware enforces strict rate limiting:</p>
+            <ul>
+                <li>100 requests per 15 minutes per IP address</li>
+                <li>10 failed login attempts lock account for 30 minutes</li>
+                <li>Payment creation limited to 50 requests per hour per user</li>
+            </ul>
+
+            <h2>8.4 Data Protection</h2>
+            <ul>
+                <li><strong>Encryption at Rest:</strong> Sensitive database fields (API keys, private keys) encrypted using AES-256</li>
+                <li><strong>Encryption in Transit:</strong> All network communication uses TLS 1.3</li>
+                <li><strong>Input Validation:</strong> Zod schema validation on all request inputs</li>
+                <li><strong>SQL Injection Prevention:</strong> Parameterized queries through Prisma ORM</li>
+                <li><strong>XSS Prevention:</strong> HTML escaping in email templates and responses</li>
+            </ul>
+
+            <h2>8.5 Blockchain Security</h2>
+            <ul>
+                <li><strong>Non-custodial Wallets:</strong> Privy handles key management, system never accesses private keys</li>
+                <li><strong>Signature Verification:</strong> All blockchain transactions cryptographically signed by wallet owner</li>
+                <li><strong>X402Pay Protocol:</strong> Payments require both request signature and transaction confirmation</li>
+                <li><strong>Replay Attack Prevention:</strong> Transaction nonces and chain IDs included in signatures</li>
+            </ul>
+
+            <h2>8.6 Audit and Compliance</h2>
+            <ul>
+                <li>All API calls logged with timestamp, user ID, endpoint, and status code</li>
+                <li>Failed authentication attempts flagged and monitored</li>
+                <li>Database access logs maintained for compliance audits</li>
+                <li>Payment transactions immutable and traceable to blockchain</li>
+            </ul>
+
+            <p><strong>Security Checklist:</strong> See SECURITY_CHECKLIST.md for comprehensive security action items and compliance guidelines.</p>
+        </section>
+
+        <!-- SECTION 9: INSTALLATION AND CONFIGURATION -->
+        <section>
+            <h1>9. Installation and Configuration</h1>
+
+            <h2>9.1 System Prerequisites</h2>
+            <ul>
+                <li>Node.js 18.0 or higher (version 22+ recommended)</li>
+                <li>PostgreSQL 12+ for production databases</li>
+                <li>npm 9+ or yarn 3.6+ package manager</li>
+                <li>Git for version control</li>
+                <li>OpenAI or Google Gemini API access</li>
+                <li>Coinbase CDP or Privy credentials for wallet operations</li>
+            </ul>
+
+            <h2>9.2 Backend Setup</h2>
+
+            <h3>Step 1: Clone Repository</h3>
+            <pre><code>git clone https://github.com/yourusername/seiagenpay-main.git
+cd seiagenpay-main/agenPay/agenpay-backend</code></pre>
+
+            <h3>Step 2: Install Dependencies</h3>
+            <pre><code>npm install</code></pre>
+
+            <h3>Step 3: Generate Prisma Client</h3>
+            <pre><code>npm run db:generate</code></pre>
+
+            <h3>Step 4: Configure Environment Variables</h3>
+            <pre><code>cp .env.example .env
+# Edit .env with your configuration values</code></pre>
+
+            <h3>Required Environment Variables:</h3>
+            <pre><code>PORT=3001
+NODE_ENV=development
+JWT_SECRET=your_jwt_secret_min_32_characters
+
+DATABASE_URL=postgresql://user:password@localhost:5432/agenpay
+
+OPENAI_API_KEY=sk-your-api-key
+OPENAI_MODEL=gpt-4
+
+SEI_RPC_URL=https://evm-rpc.sei-apis.com
+SEI_CHAIN_ID=1329
+
+NOTION_API_KEY=secret_your_notion_key
+
+CDP_API_KEY_NAME=your_key
+CDP_API_KEY_PRIVATE_KEY=your_private_key
+
+PRIVY_API_KEY=privy_your_key
+PRIVY_APP_ID=your_app_id
+
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your_email@gmail.com
+SMTP_PASS=your_app_password
+SENDER_EMAIL=noreply@agenpay.io</code></pre>
+
+            <h3>Step 5: Initialize Database</h3>
+            <pre><code>npm run db:push           # Create/update schema
+npm run db:seed           # Load initial data (optional)</code></pre>
+
+            <h3>Step 6: Start Backend Server</h3>
+            <pre><code># Development with hot reload
+npm run dev
+
+# Production
+npm start</code></pre>
+
+            <p>Backend will be available at http://localhost:3001</p>
+
+            <h2>9.3 Frontend Setup</h2>
+
+            <h3>Installation</h3>
+            <pre><code>cd ../agenpay-frontend
+npm install</code></pre>
+
+            <h3>Environment Configuration</h3>
+            <pre><code>cat > .env.local << EOF
+NEXT_PUBLIC_API_URL=http://localhost:3001
+NEXT_PUBLIC_OPENAI_KEY=sk-your-key
+EOF</code></pre>
+
+            <h3>Start Development Server</h3>
+            <pre><code>npm run dev</code></pre>
+
+            <p>Frontend will be available at http://localhost:3000</p>
+
+            <h2>9.4 Facilitator Service Setup</h2>
+            <pre><code>cd ../agenpay-facilitator
+npm install
+node index.js</code></pre>
+
+            <p>Facilitator will be available at http://localhost:3002</p>
+
+            <h2>9.5 Quick Start Script</h2>
+
+            <h3>Windows (PowerShell)</h3>
+            <pre><code>powershell -ExecutionPolicy Bypass -File "agenPay/start-project.ps1"</code></pre>
+
+            <h3>Linux/macOS</h3>
+            <pre><code>bash agenPay/start-project.sh</code></pre>
+
+            <h2>9.6 Verification Steps</h2>
+            <ol>
+                <li>Verify backend health: curl http://localhost:3001/health</li>
+                <li>Test authentication: curl -X POST http://localhost:3001/auth/register</li>
+                <li>Verify frontend loads: Navigate to http://localhost:3000</li>
+                <li>Check database connection: npm run db:check</li>
+                <li>Test AI model: npm run test:ai-chat</li>
+            </ol>
+        </section>
+
+        <!-- SECTION 10: DEPLOYMENT -->
+        <section>
+            <h1>10. Deployment Guidelines</h1>
+
+            <h2>10.1 Production Environment Setup</h2>
+            <p>For production deployment, follow these critical configurations:</p>
+
+            <h3>Database Migration to PostgreSQL</h3>
+            <p>Change DATABASE_URL to production PostgreSQL instance:</p>
+            <pre><code>DATABASE_URL=postgresql://prod_user:secure_password@prod-db.aws.rds.amazonaws.com:5432/agenpay_prod</code></pre>
+
+            <h3>Environment Variables for Production</h3>
+            <pre><code>NODE_ENV=production
+PORT=3001
+JWT_SECRET=generate_new_secure_secret_32_chars
+LOG_LEVEL=info
+RATE_LIMIT_WINDOW_MS=900000
+RATE_LIMIT_MAX_REQUESTS=100</code></pre>
+
+            <h2>10.2 Deployment Platforms</h2>
+
+            <h3>Railway Deployment</h3>
+            <pre><code>railway link                    # Connect repo
+railway up                      # Deploy
+
+# Monitor logs
+railway logs --follow</code></pre>
+
+            <h3>Render Deployment</h3>
+            <pre><code>render deploy
+# Configure environment variables in Render dashboard</code></pre>
+
+            <h3>Vercel (Frontend)</h3>
+            <pre><code>vercel deploy --prod
+# Set NEXT_PUBLIC_API_URL in project settings</code></pre>
+
+            <h2>10.3 Docker Deployment</h2>
+            <pre><code>docker build -t agenpay-backend .
+docker run -p 3001:3001 --env-file .env agenpay-backend
+
+# With Docker Compose
+docker-compose up -d</code></pre>
+
+            <h2>10.4 SSL/TLS Configuration</h2>
+            <ul>
+                <li>Use Let's Encrypt for free SSL certificates</li>
+                <li>Configure reverse proxy (nginx/Caddy) for HTTPS</li>
+                <li>Enable HSTS headers for browser security</li>
+                <li>Certificate renewal via certbot or automated service</li>
+            </ul>
+
+            <h2>10.5 Monitoring and Alerting</h2>
+            <p>Recommended monitoring stack:</p>
+            <ul>
+                <li><strong>Application Monitoring:</strong> Sentry for error tracking</li>
+                <li><strong>Performance Monitoring:</strong> New Relic or DataDog</li>
+                <li><strong>Uptime Monitoring:</strong> Uptime Robot or Better Uptime</li>
+                <li><strong>Database Monitoring:</strong> Built-in RDS/Aurora monitoring</li>
+                <li><strong>Log Aggregation:</strong> CloudWatch, ELK, or Datadog</li>
+            </ul>
+
+            <h2>10.6 Backup and Recovery</h2>
+            <ul>
+                <li><strong>Database Backups:</strong> Daily automated snapshots with 30-day retention</li>
+                <li><strong>Disaster Recovery:</strong> Test restore procedures monthly</li>
+                <li><strong>Data Export:</strong> Weekly exports to S3 for compliance</li>
+                <li><strong>RTO/RPO Targets:</strong> RTO: 4 hours, RPO: 1 hour</li>
+            </ul>
+
+            <p>See Deploy.md for detailed deployment walkthrough.</p>
+        </section>
+
+        <!-- SECTION 11: TESTING AND VERIFICATION -->
+        <section>
+            <h1>11. Testing and Verification</h1>
+
+            <h2>11.1 Test Suites</h2>
+            <p>Comprehensive test coverage includes unit tests, integration tests, and end-to-end tests.</p>
+
+            <h2>11.2 Running Tests</h2>
+
+            <h3>Backend Tests</h3>
+            <pre><code># AI Model Testing
+node tests/test-ai-chat.js          # OpenAI integration
+node tests/test-agent-gemini.js     # Google Gemini
+node tests/test-both-ai.js          # Fallback chain
+
+# Payment Processing
+node tests/test-x402.js             # X402Pay protocol
+node tests/test-networks.js         # Network connectivity
+
+# Direct Testing
+node tests/test-direct-facilitator.js
+node tests/test-facilitator.js      # Full flow
+
+# MiniMax AI Testing
+node tests/test-minimax.js</code></pre>
+
+            <h2>11.3 Health Checks</h2>
+            <pre><code>curl http://localhost:3001/health
+
+Response:
+{
+  "status": "healthy",
+  "timestamp": "2026-05-03T10:00:00Z",
+  "version": "1.0.0",
+  "services": {
+    "database": "connected",
+    "wallet": "live",
+    "aiAgent": "active"
+  }
+}</code></pre>
+
+            <h2>11.4 Database Verification</h2>
+            <pre><code>npm run db:check       # Verify connection and schema
+npm run db:studio      # Open Prisma Studio at localhost:5555</code></pre>
+
+            <h2>11.5 Network and Blockchain Testing</h2>
+            <pre><code>node tests/test-networks.js        # Verify RPC connections
+node check-openai-status.js        # Verify AI API access
+node verify-gemini.js              # Test Gemini endpoint</code></pre>
+
+            <h2>11.6 Manual Testing Checklist</h2>
+            <ul>
+                <li>User registration and wallet creation</li>
+                <li>JWT authentication flow</li>
+                <li>Payment link generation</li>
+                <li>Email notification delivery</li>
+                <li>Notion database synchronization</li>
+                <li>X402Pay protocol verification</li>
+                <li>Multi-token payment routing</li>
+                <li>Refund processing</li>
+                <li>Error handling and recovery</li>
+            </ul>
+        </section>
+
+        <!-- SECTION 12: CONCLUSION -->
+        <section>
+            <h1>12. Conclusion and Future Work</h1>
+
+            <h2>12.1 Project Summary</h2>
+            <p>AgenPay represents a significant advancement in Web3 payment infrastructure by combining artificial intelligence with blockchain technology. The system successfully addresses the complexity of multi-currency payments, workspace integration, and autonomous payment processing.</p>
+
+            <p>Key achievements:</p>
+            <ul>
+                <li>Implemented sophisticated LangGraph-based AI agent with 1600+ lines of production code</li>
+                <li>Successful integration of X402Pay protocol for non-custodial payments</li>
+                <li>Seamless Notion workspace synchronization enabling team-first payment management</li>
+                <li>Robust fallback AI model chain ensuring operational resilience</li>
+                <li>Comprehensive security implementation with JWT, encryption, and rate limiting</li>
+                <li>Production-ready deployment on Sei Network</li>
+            </ul>
+
+            <h2>12.2 Current Capabilities</h2>
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>Status</th>
+                </tr>
+                <tr>
+                    <td>Natural Language Payment Processing</td>
+                    <td>Production Ready</td>
+                </tr>
+                <tr>
+                    <td>X402Pay Integration</td>
+                    <td>Production Ready</td>
+                </tr>
+                <tr>
+                    <td>Notion Synchronization</td>
+                    <td>Production Ready</td>
+                </tr>
+                <tr>
+                    <td>Multi-Token Payments</td>
+                    <td>Production Ready</td>
+                </tr>
+                <tr>
+                    <td>Wallet Management</td>
+                    <td>Production Ready</td>
+                </tr>
+                <tr>
+                    <td>Email Notifications</td>
+                    <td>Production Ready</td>
+                </tr>
+                <tr>
+                    <td>Payment Analytics</td>
+                    <td>In Development</td>
+                </tr>
+                <tr>
+                    <td>Mobile Application</td>
+                    <td>Planned Q3 2026</td>
+                </tr>
+            </table>
+
+            <h2>12.3 Future Roadmap</h2>
+            <p>Planned enhancements for future releases:</p>
+
+            <h3>Short Term (Q2-Q3 2026)</h3>
+            <ul>
+                <li>Advanced analytics dashboard with payment trends and forecasting</li>
+                <li>Multi-chain support (Polygon, Optimism, Arbitrum)</li>
+                <li>Invoice PDF generation and automatic archival</li>
+                <li>Stripe and PayPal integration for hybrid payments</li>
+            </ul>
+
+            <h3>Medium Term (Q4 2026 - Q1 2027)</h3>
+            <ul>
+                <li>Mobile application for payment approvals and wallet management</li>
+                <li>Advanced scheduling with cron expression support</li>
+                <li>Recurring subscription payment engine</li>
+                <li>Real-time payment notifications via SMS and push</li>
+            </ul>
+
+            <h3>Long Term (2027+)</h3>
+            <ul>
+                <li>Cross-chain atomic swaps for settlement efficiency</li>
+                <li>Machine learning models for payment fraud detection</li>
+                <li>Integration with traditional banking systems</li>
+                <li>Enterprise compliance and audit trail features</li>
+            </ul>
+
+            <h2>12.4 Technical Debt and Optimization Opportunities</h2>
+            <ul>
+                <li>Migration to TypeScript for improved type safety</li>
+                <li>Implementation of message queue (Bull/BullMQ) for async processing</li>
+                <li>Database query optimization and caching strategy</li>
+                <li>Microservices refactoring for horizontal scaling</li>
+                <li>GraphQL layer for more flexible data querying</li>
+            </ul>
+
+            <h2>12.5 Success Metrics</h2>
+            <p>The success of AgenPay is measured by:</p>
+            <ul>
+                <li>System uptime: 99.5%+ availability</li>
+                <li>Payment processing speed: Average 5 seconds from request to link generation</li>
+                <li>User adoption: 100+ active teams</li>
+                <li>Transaction volume: 1000+ payments per day</li>
+                <li>Error rate: Less than 0.1% of transactions</li>
+                <li>Security: Zero security incidents over 12-month period</li>
+            </ul>
+
+            <h2>12.6 Conclusion</h2>
+            <p>AgenPay demonstrates the practical application of AI agents in financial infrastructure. By combining natural language processing, blockchain technology, and workspace integration, the system provides Web3 teams with a powerful tool for managing complex payment operations at scale. The project is actively maintained, production-ready, and positioned for significant growth as adoption increases across the Web3 ecosystem.</p>
+
+            <p>The codebase is well-structured, documented, and follows enterprise-grade security practices. The modular architecture enables rapid feature development while maintaining stability and reliability.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>AgenPay Technical Project Report - Version 1.0.0</p>
+        <p>Generated: May 2026 | License: MIT | Repository: https://github.com/yourusername/seiagenpay-main</p>
+    </footer>
+
+</body>
+</html>
